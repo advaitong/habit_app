@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:habit_app/pages/intro_page.dart';
-import 'package:habit_app/theme/dark_mode.dart';
-import 'package:habit_app/theme/light_mode.dart';
+import 'package:habit_app/pages/home_page.dart';
 import 'package:habit_app/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -22,8 +20,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: IntroPage(),
-      theme: darkMode,
+      home: const HomePage(),
+      theme: Provider.of<ThemeProvider>(context).themeData,
     );
   }
 }
