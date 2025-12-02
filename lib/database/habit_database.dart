@@ -21,6 +21,7 @@ class HabitDatabase extends ChangeNotifier {
     final existingSettings = await isar.appSettings.where().findFirst();
     if (existingSettings == null) {
       final settings = AppSettings()..firstLaunchDate = DateTime.now();
+      await isar.writeTxn(() => isar.appSettings.put(settings));
     }
   }
 
@@ -90,7 +91,7 @@ class HabitDatabase extends ChangeNotifier {
     readHabits();
   }
 
-  Future<void> deletHabit(int id) async {
+  Future<void> deleteHabit(int id) async {
     await isar.writeTxn(() async {
       await isar.habits.delete(id);
     });

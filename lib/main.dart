@@ -9,6 +9,7 @@ void main() async {
 
   await HabitDatabase.initialize();
   await HabitDatabase().saveFirstLaunchDate();
+
   runApp(
     MultiProvider(
       providers: [
