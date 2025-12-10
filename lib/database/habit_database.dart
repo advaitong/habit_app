@@ -30,6 +30,35 @@ class HabitDatabase extends ChangeNotifier {
     final settings = await isar.appSettings.where().findFirst();
     return settings?.firstLaunchDate;
   }
+  
+  // ----------------------------------------------------
+  // ⭐ NEW: TUTORIAL STATUS METHODS
+  // ----------------------------------------------------
+  
+  // Get tutorial status (true if shown, false otherwise)
+  Future<bool> getTutorialShown() async {
+    final settings = await isar.appSettings.where().findFirst();
+    // Assuming AppSettings has a 'isTutorialShown' field. Defaults to false.
+    return settings?.isTutorialShown ?? false; 
+  }
+
+  // Set tutorial status to true
+  Future<void> saveTutorialShown() async {
+    final existingSettings = await isar.appSettings.where().findFirst();
+    final settings = existingSettings ?? AppSettings();
+    
+    await isar.writeTxn(() async {
+      settings.isTutorialShown = true;
+      await isar.appSettings.put(settings);
+      
+      // Also ensure first launch date is saved if this is the absolute first run
+      if (settings.firstLaunchDate == null) {
+        settings.firstLaunchDate = DateTime.now();
+      }
+    });
+  }
+  
+  // ----------------------------------------------------
 
   //list of habits
   final List<Habit> currentHabits = [];
@@ -97,5 +126,14 @@ class HabitDatabase extends ChangeNotifier {
     });
 
     readHabits();
+  }
+
+  Future<void> clearDatabase() async {
+    await isar.writeTxn(() async {
+      await isar.habits.clear();
+      await isar.appSettings.clear();
+    });
+
+    await readHabits(); 
   }
 }

@@ -3,7 +3,8 @@ import 'package:habit_app/theme/dark_mode.dart';
 import 'package:habit_app/theme/light_mode.dart';
 
 class ThemeProvider extends ChangeNotifier {
-  ThemeData _themeData = lightMode;
+  // Initialize to darkMode to make it the default
+  ThemeData _themeData = darkMode;
 
   ThemeData get themeData => _themeData;
 

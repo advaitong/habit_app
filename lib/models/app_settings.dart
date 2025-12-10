@@ -5,5 +5,8 @@ part 'app_settings.g.dart';
 @Collection()
 class AppSettings {
   Id id = Isar.autoIncrement;
+
   DateTime? firstLaunchDate;
+
+  bool isTutorialShown = false;
 }
